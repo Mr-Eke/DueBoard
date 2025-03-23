@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DueBoard | Assignment Deadlines</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header>
+        <!-- Header: application description & current user -->
+        <div class="header__section">
+            <div class="logo">
+                <div class="logo__icon">DB</div>
+                <h1>DueBoard</h1>
+            </div>
+
+            <!--
+             User details.
+             TODO: This detail will come from user authentication.
+            -->
+            <div class="user__section">
+                <span>Agoziem</span>
+                <div class="user__photo">AG</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+
+            <!-- Filter/sorting and search controls -->
+            <section class="controls">
+                <div class="filter-buttons">
+                    <button class="btn btn-primary" id="sort-due">
+                        <i class="ri-calendar-schedule-line"></i> Due Date
+                    </button>
+                    <button class="btn btn-outlined" id="sort-title">
+                        <i class="ri-sort-alphabet-asc"></i> Title
+                    </button>
+                    <button class="btn btn-outlined" id="show-urgent">
+                        <i class="ri-alert-fill"></i> Only Urgent
+                    </button>
+                </div>
+                <div class="search__box">
+                    <i class="ri-search-line"></i>
+                    <input type="text" placeholder="Search assignments.." id="search-input">
+                </div>
+            </section>
+        </div>
+    </div>
+
+</body>
+
+</html>
