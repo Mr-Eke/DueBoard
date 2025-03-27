@@ -22,6 +22,7 @@
 *::before,
 *::after {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -80,25 +81,10 @@ header {
   font-size: 1.8rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-}
 
-.user__section {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.user__photo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--navy);
-  font-weight: bold;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  span {
+    color: var(--red);
+  }
 }
 
 .main-content {
@@ -155,19 +141,19 @@ header {
 }
 
 /* button hover effect */
-.btn:hover {
+button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* =================[ Assignment search box ]=============== */
-.search-box {
+.search__box {
   position: relative;
   flex-grow: 1;
   max-width: 350px;
 }
 
-.search-box input {
+.search__box input {
   width: 100%;
   padding: 12px 18px;
   padding-left: 42px;
@@ -177,16 +163,220 @@ header {
   transition: all 0.2s ease;
 }
 
-.search-box input:focus {
+.search__box input:focus {
   outline: none;
   border-color: var(--navy);
-  box-shadow: 0 0 0 3px var(--navy-lighter);
 }
 
-.search-icon {
+.search__box i {
   position: absolute;
   left: 15px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--dark-gray);
 }
+
+
+/* ==============[ Assignment Cards: Canvas calendar events ]================ */
+
+.assignments {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.assignment-card {
+  background-color: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-left: 5px solid var(--navy);
+}
+
+.assignment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-urgent {
+  border-left-color: var(--red);
+}
+
+.assignment-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.assignment-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 5px;
+}
+
+.assignment-course {
+  display: inline-block;
+  background-color: var(--navy-lighter);
+  color: var(--navy);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.due-date-section {
+  text-align: right;
+  min-width: 120px;
+}
+
+.assignment-date {
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.countdown {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/*=========[ colour of notification under dates signifies level of urgency ]===========*/
+.urgent {
+  background-color: var(--red-light);
+  color: var(--red);
+}
+
+.warning {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: #ff9500;
+}
+
+.safe {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #20c997;
+}
+
+.overdue {
+  color: darkred;
+  font-weight: bold;
+  background-color: #f1e6ff;
+}
+
+.assignment-body {
+  padding: 15px 20px;
+}
+
+.assignment-description {
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  overflow: hidden;
+  max-height: 60px;
+  transition: max-height 0.3s ease;
+}
+
+.expanded {
+  max-height: 1000px;
+}
+
+.toggle-description {
+  font-size: 0.85rem;
+  color: var(--navy);
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.toggle-description:hover {
+  text-decoration: underline;
+}
+
+.sync-info {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sync-icon {
+  font-size: 0.8rem;
+}
+
+/* For Empty assignment card */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.empty-state h3 {
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: var(--dark-gray);
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-box {
+    width: 100%;
+    max-width: none;
+  }
+
+  .assignment-header {
+    flex-direction: column;
+  }
+
+  .due-date-section {
+    text-align: left;
+    margin-top: 10px;
+  }
+}
+
+/* ================[ Authentication button Styles ]================= */
+#auth-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+#auth-container button {
+  width: 20%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid var(--navy);
+  transition: all 0.2s ease;
+
+}
+
+#authorize_button {
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+#signout_button {
+  color: var(--text-dark);
+}
+

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DueBoard | Assignment Deadlines</title>
+    <title>DueBoard | Canvas Assignments</title>
     <link rel="stylesheet" href="./style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
@@ -12,20 +12,9 @@
 <body>
 
     <header>
-        <!-- Header: application description & current user -->
         <div class="header__section">
             <div class="logo">
-                <div class="logo__icon">DB</div>
-                <h1>DueBoard</h1>
-            </div>
-
-            <!--
-             User details.
-             TODO: This detail will come from user authentication.
-            -->
-            <div class="user__section">
-                <span>Agoziem</span>
-                <div class="user__photo">AG</div>
+                <h1><span>Due</span>Board</h1>
             </div>
         </div>
     </header>
@@ -40,10 +29,10 @@
                         <i class="ri-calendar-schedule-line"></i> Due Date
                     </button>
                     <button class="btn btn-outlined" id="sort-title">
-                        <i class="ri-sort-alphabet-asc"></i> Title
+                        <i class="ri-sort-alphabet-asc"></i> By Title
                     </button>
                     <button class="btn btn-outlined" id="show-urgent">
-                        <i class="ri-alert-fill"></i> Only Urgent
+                        <i class="ri-alert-fill search__icon"></i> Urgent Only
                     </button>
                 </div>
                 <div class="search__box">
@@ -51,9 +40,22 @@
                     <input type="text" placeholder="Search assignments.." id="search-input">
                 </div>
             </section>
+
+            <div class="assignments" id="assignments-container">
+                <!-- Assignments will be inserted here dynamically -->
+            </div>
+
+            <!-- Authorization & signout buttons -->
+            <div id="auth-container">
+                <button id="authorize_button">Authorize Access</button>
+                <button id="signout_button" style="visibility: hidden;">Sign Out</button>
+            </div>
+
         </div>
     </div>
 
+    <script type="module" src="./main.js"></script>
+    <script type="module" src="./config.js"></script>
 </body>
 
 </html>
