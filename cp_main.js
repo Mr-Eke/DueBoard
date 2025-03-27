@@ -71,12 +71,8 @@ function maybeEnableButtons() {
 /**
  * Handles user authentication when the "Authorize" button is clicked.
  * Requests an OAuth access token from Google and fetches events if successful.
- * If already authorized, attempts to refresh events with the existing token silently.
  */
-async function handleAuthClick() {
-    const currentToken = gapi.client.getToken();
-
-    // Callback for token request
+function handleAuthClick() {
     tokenClient.callback = async (resp) => {
         if (resp.error !== undefined) {
             console.error('Authorization error:', resp);
@@ -90,22 +86,10 @@ async function handleAuthClick() {
         await listUpcomingEvents(); // Fetch and render assignments
     };
 
-    if (currentToken === null) {
-        // First-time authorization: Prompt for consent
+    if (gapi.client.getToken() === null) {
         tokenClient.requestAccessToken({ prompt: 'consent' });
     } else {
-        // Already authorized: Try using the existing token first
-        try {
-            listUpcomingEvents(); // Attempt to fetch events with current token
-        } catch (err) {
-            if (err.status === 401 || err.status === 403) {
-                // Token expired or invalid: Silently request a new one
-                tokenClient.requestAccessToken({ prompt: '' }); // No prompt for refresh
-            } else {
-                console.error('Error fetching events with existing token:', err);
-                document.getElementById('content').innerText = 'Error refreshing events: ' + err.message;
-            }
-        }
+        tokenClient.requestAccessToken();
     }
 }
 
@@ -217,7 +201,6 @@ async function listUpcomingEvents() {
     } catch (err) {
         document.getElementById('content').innerText = 'Error fetching events: ' + err.message;
         console.error('Event fetch error:', err);
-        throw err; // Re-throw to catch in handleAuthClick
     }
 }
 
@@ -263,20 +246,14 @@ function renderAssignments(assignmentsToRender) {
             container.innerHTML = `
                 <div class="empty-state-unauthorized">
                     <h3>Welcome to DueBoard!</h3>
-                    <p class="first-p"><strong>DueBoard</strong> is for ALU students only. Click "Authorize Access" and sign in with your <strong>@alustudent.com</strong> email address.</p>
-                    <p class="first-p">Ensure your Canvas calendar is synced with your ALU Google account.</p>
-
-                    <p class="first-p second-p"><strong>Sync Steps:</strong> In Canvas, go to <strong>Calendar</strong>, select your name and courses, click <strong>Calendar Feed</strong>, and copy the URL. Go to your Google Calendar, click <strong>+</strong> beside "Other Calendars," to add a new calendar, select <strong>From URL</strong>, paste the link, check the box <strong>Make publicly accessible</strong>, and click <strong>Add Calendar</strong>.
-                    </p>
-
-                    <p class="first-p warning">If you use a personal email (e.g., Gmail), you’ll get an "Access blocked" error. Switch to your ALU email to proceed!</p>
+                    <p>Please click "Authorize Access" to connect your Google account and fetch your Canvas assignments.</p>
                 </div>
             `;
         } else {
             container.innerHTML = `
                 <div class="empty-state">
                     <h3>No Assignments to Display</h3>
-                    <p>Adjust your filters/search or click "Refresh Assignments" to display your available canvas assignments</p>
+                    <p>Adjust your filters/search or click "Refresh Assignments" to fetch your Canvas assignments</p>
                 </div>
             `;
         }
@@ -320,7 +297,6 @@ function renderAssignments(assignmentsToRender) {
           </div>
           <div class="assignment-body">
             <div class="assignment-description" id="desc-${assignment.id}">
-            <div class="desc-title">Assignment Description:</div>
               ${assignment.description}
             </div>
             <span class="toggle-description" data-id="${assignment.id}">

@@ -1,6 +1,5 @@
-
 /* ==================[ Global styles ]================= */
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 
 :root {
   --navy: rgb(8, 44, 108);
@@ -82,8 +81,13 @@ header {
   font-weight: 600;
   letter-spacing: 0.5px;
 
-  span {
+  .due {
     color: var(--red);
+    border-bottom: 3.5px solid var(--white);
+  }
+
+  .board {
+    border-bottom: 3.5px solid var(--red);
   }
 }
 
@@ -176,13 +180,19 @@ button:hover {
   color: var(--dark-gray);
 }
 
-
 /* ==============[ Assignment Cards: Canvas calendar events ]================ */
 
 .assignments {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
+}
+
+.desc-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 0;
 }
 
 .assignment-card {
@@ -315,20 +325,53 @@ button:hover {
 /* For Empty assignment card */
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
-  background-color: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  color: #666;
 }
 
 .empty-state h3 {
-  color: var(--navy);
+  font-size: 24px;
   margin-bottom: 10px;
 }
 
 .empty-state p {
-  color: var(--dark-gray);
+  font-size: 16px;
 }
+
+.empty-state-unauthorized .first-p {
+  font-size: 1rem;
+  text-align: justify;
+  justify-content: center;
+}
+
+.empty-state-unauthorized .second-p {
+  margin: 1rem 0;
+}
+
+.empty-state-unauthorized .warning {
+  color: var(--red);
+}
+
+.empty-state-unauthorized {
+  padding: 2.5rem;
+  color: #333;
+  background-color: #f5f5f5; /* Light gray background */
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state-unauthorized h3 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #2c3e50; /* Darker color for emphasis */
+}
+
+.empty-state-unauthorized p {
+  font-size: 18px;
+}
+
 
 @media (max-width: 768px) {
   .controls {
@@ -336,6 +379,7 @@ button:hover {
     align-items: flex-start;
   }
 
+  /* =============[ Styling: Search box ]=============== */
   .search-box {
     width: 100%;
     max-width: none;
@@ -368,7 +412,6 @@ button:hover {
   cursor: pointer;
   border: 1px solid var(--navy);
   transition: all 0.2s ease;
-
 }
 
 #authorize_button {
@@ -379,4 +422,3 @@ button:hover {
 #signout_button {
   color: var(--text-dark);
 }
-
