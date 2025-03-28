@@ -96,7 +96,7 @@ async function handleAuthClick() {
     } else {
         // Already authorized: Try using the existing token first
         try {
-            listUpcomingEvents(); // Attempt to fetch events with current token
+            await listUpcomingEvents(); // Attempt to fetch events with current token (fixed await here)
         } catch (err) {
             if (err.status === 401 || err.status === 403) {
                 // Token expired or invalid: Silently request a new one
@@ -265,11 +265,8 @@ function renderAssignments(assignmentsToRender) {
                     <h3>Welcome to DueBoard!</h3>
                     <p class="first-p"><strong>DueBoard</strong> is for ALU students only. Click "Authorize Access" and sign in with your <strong>@alustudent.com</strong> email address.</p>
                     <p class="first-p">Ensure your Canvas calendar is synced with your ALU Google account.</p>
-
-                    <p class="first-p second-p"><strong>Sync Steps:</strong> In Canvas, go to <strong>Calendar</strong>, select your name and courses, click <strong>Calendar Feed</strong>, and copy the URL. Go to your Google Calendar, click <strong>+</strong> beside "Other Calendars," to add a new calendar, select <strong>From URL</strong>, paste the link, check the box <strong>Make publicly accessible</strong>, and click <strong>Add Calendar</strong>.
+                    <p class="first-p second-p"><strong>Sync Steps:</strong> In Canvas, go to <strong>Calendar</strong>, select your name and courses if they not already selected, click <strong>Calendar Feed</strong>, and copy the URL. Go to your Google Calendar, click <strong>+</strong> beside "Other Calendars," to add a new calendar, select <strong>From URL</strong>, paste the link, check the box <strong>Make publicly accessible</strong>, and click <strong>Add Calendar</strong>.
                     </p>
-
-                    <p class="first-p warning">If you use a personal email (e.g., Gmail), you’ll get an "Access blocked" error. Switch to your ALU email to proceed!</p>
                 </div>
             `;
         } else {
@@ -377,7 +374,7 @@ document.getElementById('sort-title').addEventListener('click', function () {
 
 // Event listener for showing urgent assignments
 document.getElementById('show-urgent').addEventListener('click', function () {
-    const urgent = assignments.filter(a => getDaysUntil(a.dueDate) <= 3);
+    const urgent = assignments.filter(a => getDaysUntil(a.dueDate) >= 0 && getDaysUntil(a.dueDate) <= 3);
     renderAssignments(urgent);
     document.getElementById('show-urgent').classList.remove('btn-outlined');
     document.getElementById('show-urgent').classList.add('btn-primary');
@@ -388,7 +385,7 @@ document.getElementById('show-urgent').addEventListener('click', function () {
 });
 
 // Event listener for search
-document.getElementById('search-input').addEventListener('input', function () {
+document.getElementById('search-input').addEventListener('click', function () {
     const searchTerm = this.value.toLowerCase();
     const filtered = assignments.filter(a =>
         a.title.toLowerCase().includes(searchTerm) ||

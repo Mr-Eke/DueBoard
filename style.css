@@ -339,7 +339,7 @@ button:hover {
 }
 
 .empty-state-unauthorized .first-p {
-  font-size: 1rem;
+  font-size: .9rem;
   text-align: justify;
   justify-content: center;
 }
