@@ -30,7 +30,7 @@
 Go live and open your browser on ```http://localhost:5500``` since port 5500 is the redirect URL in the Google Cloud Console for OAuth.  
 ## Deployment
 **DueBoard** is deployed on two Amazon EC2 web servers (web-01 and web-02) that serve the application via NGINX. A load balancer server (lb-01) maps to the domain www.chiagoziem.tech via A record and distributes traffic evenly across web-01 and web-02 using HAProxy.  
-## Web Servers Setup
+### Web Servers Setup
 - **NGINX Configuration on web-01 and web-02:**
   - My application files are placed in this designated directory ```/var/www/dueboard``` and below is a server block i configured in Nginx to server request for dueboard app
       ```
