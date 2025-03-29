@@ -50,4 +50,21 @@ Go live and open your browser on ```http://localhost:5500``` since port 5500 is 
       }
     ```
 ## Load Balancer Configuration
+My load balancer (lb-01) is powered by HAProxy, which sits in front of web-01 and web-02. HAProxy dynamically routes incoming requests evenly to the 2 web servers. I added the below configurations to my haproxy.cfg to achieve this. ⤵️  
+```
+frontend eke_front
+    bind *:80
+    mode http
+    default_backend eke_back
 
+frontend eke_front_secured
+    bind *:443 ssl crt /etc/haproxy/certs/www.chiagoziem.tech.pem
+    http-request redirect scheme https code 301 unless { ssl_fc }
+    default_backend eke_back
+
+backend eke_back
+    balance roundrobin
+    server 6414-web-01 3.93.240.46:80 check
+    server 6414-web-02 54.227.209.123:80 check
+```
+From my above configuration, the frontend (`eke_front`) listens on port 80 (HTTP) and forwards all requests to the backend (`eke_back`). The secure frontend (`eke_front_secured`) operates on port 443 (HTTPS) with an SSL certificate stored at `/etc/haproxy/certs/www.chiagoziem.tech.pem`, redirecting HTTP traffic to HTTPS for secure communication before forwarding it to the backend. Lastly, I configured the backend (`eke_back`) to use the `round robin` algorithm to distribute requests evenly between web-01 and web-02, While `check` ensures HAProxy verifies server availability before routing traffic.
