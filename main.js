@@ -11,6 +11,13 @@ let gapiInited = false;
 let gisInited = false;
 let assignments = []; // hold assignments from canvas calendar
 
+
+// Helper function to set error messages
+function setErrorMessage(message) {
+    let contentElement = document.getElementById('error-content');
+    contentElement.innerText = message;
+}
+
 document.getElementById('authorize_button').style.visibility = 'hidden';
 document.getElementById('signout_button').style.visibility = 'hidden';
 
@@ -140,7 +147,8 @@ export async function getCanvasCalendar() {
         );
 
         if (!canvasCalendar) {
-            document.getElementById('content').innerText = 'No Canvas calendar found. Have you linked your Canvas account?';
+            setErrorMessage('No Canvas calendar found. Follow the "Sync steps" instruction above to link your canvas calendar, then authorize access');
+
             return null;
         }
 
@@ -148,6 +156,7 @@ export async function getCanvasCalendar() {
         canvasCalendarId = canvasCalendar.id;
         // console.log("Canvas Calendar:", canvasCalendarId);
         return canvasCalendarId;
+
     } catch (err) {
         return null;
     }
@@ -167,7 +176,6 @@ async function listUpcomingEvents() {
         await getCanvasCalendar();
     }
     if (!canvasCalendarId) {
-        document.getElementById('content').innerText = 'No Canvas calendar found. Have you linked your Canvas account?';
         return;
     }
 
@@ -185,7 +193,7 @@ async function listUpcomingEvents() {
         console.log(events);
 
         if (!events || events.length === 0) {
-            document.getElementById('content').innerText = 'No upcoming Canvas events found.';
+            document.getElementById('error-content').innerText = 'No upcoming Canvas events found.';
             assignments = [];
             renderAssignments(assignments);
             return;
@@ -204,10 +212,26 @@ async function listUpcomingEvents() {
             const defaultDescription = `This is a quiz for ${courseName}`;
             const description = event.description?.trim() || defaultDescription;
 
+
+            /**
+             * Use full dateTime or convert local UTC midnight to CAT
+             *
+             * event.end.date => local midnight (UTC+2 for CAT)
+             * event.end.dateTime => complete date and time is provided.
+            */
+            let dueDate;
+            if (event.end.date && !event.end.dateTime) {
+                const [year, month, day] = event.end.date.split('-');
+                dueDate = new Date(year, month - 1, day); // (month - 1): JavaScript's Date constructor uses zero-indexed months
+                dueDate.setMinutes(dueDate.getMinutes() - 1); // Reflects 11:59 PM of previous day
+            } else {
+                dueDate = new Date(event.end.dateTime); // Use directly if full date-time provided
+            }
+
             return {
                 id: index,
                 title: cleanTitle,
-                dueDate: new Date(event.start.dateTime || event.start.date),
+                dueDate: dueDate,
                 description: description,
                 course: courseName
             };
@@ -215,7 +239,7 @@ async function listUpcomingEvents() {
 
         renderAssignments(assignments);
     } catch (err) {
-        document.getElementById('content').innerText = 'Error fetching events: ' + err.message;
+        document.getElementById('error-content').innerText = 'Error fetching events: ' + err.message;
         console.error('Event fetch error:', err);
         throw err; // Re-throw to catch in handleAuthClick
     }
@@ -321,7 +345,7 @@ function renderAssignments(assignmentsToRender) {
               ${assignment.description}
             </div>
             <span class="toggle-description" data-id="${assignment.id}">
-              <span>Show more</span> <span>↓</span>
+              <span>Show detail</span> <span>↓</span>
             </span>
           </div>
         `;
@@ -339,10 +363,10 @@ function renderAssignments(assignmentsToRender) {
 
             if (desc.classList.contains('expanded')) {
                 arrowSpan.textContent = '↑';
-                textSpan.textContent = 'Show less';
+                textSpan.textContent = 'Hide detail';
             } else {
                 arrowSpan.textContent = '↓';
-                textSpan.textContent = 'Show more';
+                textSpan.textContent = 'Show detail';
             }
         });
     });
@@ -385,7 +409,7 @@ document.getElementById('show-urgent').addEventListener('click', function () {
 });
 
 // Event listener for search
-document.getElementById('search-input').addEventListener('click', function () {
+document.getElementById('search-input').addEventListener('input', function () {
     const searchTerm = this.value.toLowerCase();
     const filtered = assignments.filter(a =>
         a.title.toLowerCase().includes(searchTerm) ||
