@@ -11,7 +11,7 @@ Helps students stay on top of their assignment deadlines by syncing Canvas assig
   - **Official Documentation:** [Google Calendar API Docs](https://developers.google.com/calendar/api/guides/overview)
   - Used for fetching calendar events and assignment data. 
 - **Frontend:** HTML, CSS, JavaScript
-- **Backend/Deployment:** 3 Amazon EC2 servers (web-01, web-02, lb-01), NGINX, HAProxy.
+- **Deployment:** 3 Amazon EC2 servers (web-01, web-02, lb-01), NGINX, HAProxy.
 
 ## Local Setup
 - **Clone the Repository:**
