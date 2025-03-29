@@ -425,6 +425,6 @@ button:hover {
 
 #error-content {
   color: var(--red);
-  font-size: 0.9rem;
-  margin-top: 10px;
+  font-size: 1rem;
+  margin-top: 15px;
 }
