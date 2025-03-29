@@ -15,7 +15,12 @@ let assignments = []; // hold assignments from canvas calendar
 // Helper function to set error messages
 function setErrorMessage(message) {
     let contentElement = document.getElementById('error-content');
-    contentElement.innerText = message;
+    if (contentElement) {
+        contentElement.innerText = message;
+        contentElement.style.display = 'block'; // Make it visible
+    } else {
+        console.error('Error: #error-content element not found in DOM');
+    }
 }
 
 document.getElementById('authorize_button').style.visibility = 'hidden';
@@ -381,6 +386,10 @@ function renderAssignments(assignmentsToRender) {
 
 // Event listener for sorting by due date
 document.getElementById('sort-due').addEventListener('click', function () {
+    if (!canvasCalendarId) {
+        return; // Exit if calendar isn’t found
+    }
+
     const sorted = [...assignments].sort((a, b) => a.dueDate - b.dueDate);
     renderAssignments(sorted);
     document.getElementById('sort-due').classList.remove('btn-outlined');
@@ -393,6 +402,10 @@ document.getElementById('sort-due').addEventListener('click', function () {
 
 // Event listener for sorting by title
 document.getElementById('sort-title').addEventListener('click', function () {
+    if (!canvasCalendarId) {
+        return; // Exit if calendar isn’t found
+    }
+
     const sorted = [...assignments].sort((a, b) => a.title.localeCompare(b.title));
     renderAssignments(sorted);
     document.getElementById('sort-title').classList.remove('btn-outlined');
@@ -405,6 +418,10 @@ document.getElementById('sort-title').addEventListener('click', function () {
 
 // Event listener for showing urgent assignments
 document.getElementById('show-urgent').addEventListener('click', function () {
+    if (!canvasCalendarId) {
+        return; // Exit if calendar isn’t found
+    }
+
     const urgent = assignments.filter(a => getDaysUntil(a.dueDate) >= 0 && getDaysUntil(a.dueDate) <= 3);
     renderAssignments(urgent);
     document.getElementById('show-urgent').classList.remove('btn-outlined');
@@ -417,6 +434,10 @@ document.getElementById('show-urgent').addEventListener('click', function () {
 
 // Event listener for search
 document.getElementById('search-input').addEventListener('input', function () {
+    if (!canvasCalendarId) {
+        return; // Exit if calendar isn’t found
+    }
+    
     const searchTerm = this.value.toLowerCase();
     const filtered = assignments.filter(a =>
         a.title.toLowerCase().includes(searchTerm) ||
