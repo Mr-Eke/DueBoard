@@ -188,99 +188,6 @@ button:hover {
   gap: 20px;
 }
 
-.desc-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--navy);
-  margin: 0;
-}
-
-.assignment-card {
-  background-color: var(--white);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  border-left: 5px solid var(--navy);
-}
-
-.assignment-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.card-urgent {
-  border-left-color: var(--red);
-}
-
-.assignment-header {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  border-bottom: 1px solid var(--light-gray);
-}
-
-.assignment-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 5px;
-}
-
-.assignment-course {
-  display: inline-block;
-  background-color: var(--navy-lighter);
-  color: var(--navy);
-  font-size: 0.8rem;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: 4px;
-  margin-top: 5px;
-}
-
-.due-date-section {
-  text-align: right;
-  min-width: 120px;
-}
-
-.assignment-date {
-  font-size: 0.9rem;
-  color: var(--dark-gray);
-  display: block;
-  margin-bottom: 5px;
-}
-
-.countdown {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-/*=========[ colour of notification under dates signifies level of urgency ]===========*/
-.urgent {
-  background-color: var(--red-light);
-  color: var(--red);
-}
-
-.warning {
-  background-color: rgba(255, 193, 7, 0.1);
-  color: #ff9500;
-}
-
-.safe {
-  background-color: rgba(40, 167, 69, 0.1);
-  color: #20c997;
-}
-
-.overdue {
-  color: darkred;
-  font-weight: bold;
-  background-color: #f1e6ff;
-}
-
 .assignment-body {
   padding: 15px 20px;
 }
@@ -288,10 +195,10 @@ button:hover {
 .assignment-description {
   color: var(--text-dark);
   font-size: 0.95rem;
-  margin-bottom: 15px;
   overflow: hidden;
-  max-height: 60px;
+  max-height: 20px;
   transition: max-height 0.3s ease;
+  white-space: pre-wrap;
 }
 
 .expanded {
@@ -373,6 +280,76 @@ button:hover {
 }
 
 
+.desc-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.assignment-card {
+  background-color: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-left: 5px solid var(--navy);
+}
+
+.assignment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-urgent {
+  border-left-color: var(--red);
+}
+
+.assignment-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.assignment-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 5px;
+}
+
+.assignment-course {
+  display: inline-block;
+  background-color: var(--navy-lighter);
+  color: var(--navy);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.due-date-section {
+  text-align: right;
+  min-width: 120px;
+}
+
+.assignment-date {
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.countdown {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .controls {
     flex-direction: column;
@@ -394,6 +371,29 @@ button:hover {
     margin-top: 10px;
   }
 }
+
+/*=========[ colour of notification under dates signifies level of urgency ]===========*/
+.urgent {
+  background-color: var(--red-light);
+  color: var(--red);
+}
+
+.warning {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: #ff9500;
+}
+
+.safe {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #20c997;
+}
+
+.overdue {
+  color: darkred;
+  font-weight: bold;
+  background-color: #f1e6ff;
+}
+
 
 /* ================[ Authentication button Styles ]================= */
 #auth-container {
@@ -421,4 +421,10 @@ button:hover {
 
 #signout_button {
   color: var(--text-dark);
+}
+
+#error-content {
+  color: var(--red);
+  font-size: 0.9rem;
+  margin-top: 10px;
 }
