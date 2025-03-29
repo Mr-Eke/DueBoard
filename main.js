@@ -249,9 +249,16 @@ async function listUpcomingEvents() {
 function getDaysUntil(dueDate) {
     const now = new Date();
     const diffTime = dueDate - now;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    // If the due date is today but has already passed, mark it as overdue
+    if (diffDays === 0 && now > dueDate) {
+        return -1; // Ensures it shows "Already due"
+    }
+
     return diffDays;
 }
+
 
 // get countdown class - check the purpose of these in css stylesheet
 function getCountdownClass(days) {
