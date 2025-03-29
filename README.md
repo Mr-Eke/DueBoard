@@ -1,6 +1,6 @@
 ![Image](https://github.com/user-attachments/assets/e68b260f-37a1-4a07-919d-be969c52325f)   
   
-Helps students stay on top of their assignment deadlines by syncing Canvas assignment events with Google Calendar. The web application presents assignment data in an easy-to-understand format, allowing users to sort, filter, and search assignments.
+Helps students stay on top of their assignment deadlines by syncing Canvas assignment events with Google Calendar. The web application presents assignment data in an easy-to-understand format, allowing users to sort, filter, and search assignments. **DueBoard** just ensures you are managing your academic schedules well!
 ## Features
 - [x] **Canvas Calendar Sync:** Automatically sync and read your Canvas calendar events from Google Calendar.
 - [x] **Assignment Details:** You can view your assignments with their name, module, description, and countdown until the due date.
