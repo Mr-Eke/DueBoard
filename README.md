@@ -96,6 +96,6 @@ backend eke_back
       - Added this directive `http-response set-header Strict-Transport-Security "max-age=31536000"` for HAProxy to add the HSTS header to HTTP responses, instructing browsers to enforce HTTPS-only connections for the specified duration (in my case, less than 90 days (countdown to the expiry of my SSL cert from certbot), defined by max-age=31536000)
     - Finally, the backend uses a round-robin algorithm to distribute traffic between web-01 and web-02.
 ### Validate Load Balancer
-  - To Validate that traffic is evenly distributed through my load balancer (lb-01), the screenshot below shows which web server handles each request. The left image captures a request for the load balancer's IP, while the right image shows one for the domain. Look at the red arrow, which highlights the `X-Served-By` header and indicates the active server at that moment.
+The screenshot below shows which web server handles each request. The left image captures a request for the load balancer's IP, while the right image shows one for the domain name. Look at the red arrow, which highlights the `X-Served-By` header and indicates the active server at that moment.
   
-    - ![Image](https://github.com/user-attachments/assets/956e88fd-9ea5-4088-a40b-a1c07d7ce9e0)
+![Image](https://github.com/user-attachments/assets/956e88fd-9ea5-4088-a40b-a1c07d7ce9e0)
