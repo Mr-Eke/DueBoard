@@ -417,10 +417,12 @@ button:hover {
 #authorize_button {
   color: var(--text-dark);
   cursor: pointer;
+  min-width: 10rem;
 }
 
 #signout_button {
   color: var(--text-dark);
+  min-width: 10rem;
 }
 
 #error-content {
