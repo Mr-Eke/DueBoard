@@ -218,21 +218,25 @@ async function listUpcomingEvents() {
             const courseMatch = event.summary?.match(/\[(.*?)\]/);
             const courseName = courseMatch ? courseMatch[1] : 'Canvas';
 
-            // Trim title (event summary) and get only assignment tittle
+            // Trim title (event summary) and get only assignment title
             const rawTitle = event.summary || 'Untitled Event';
             const cleanTitle = rawTitle.replace(/\s*\[.*?\]\s*/g, '').trim();
 
-            // Generate default description for Quizz assignments without a description
+            // Generate default description only if title contains "QUIZ" and no description key or empty description
+            const hasQuizInTitle = cleanTitle.toLowerCase().includes('quiz');
+            const hasNoDescriptionKey = event.description === undefined;
+            const hasEmptyDescription = event.description !== undefined && !event.description.trim();
             const defaultDescription = `This is a quiz for ${courseName}`;
-            const description = event.description?.trim() || defaultDescription;
-
+            const description = hasQuizInTitle && (hasNoDescriptionKey || hasEmptyDescription)
+                ? defaultDescription
+                : event.description || 'No Description';
 
             /**
              * Use full dateTime or convert local UTC midnight to CAT
              *
              * event.end.date => local midnight (UTC+2 for CAT)
              * event.end.dateTime => complete date and time is provided.
-            */
+             */
             let dueDate;
             if (event.end.date && !event.end.dateTime) {
                 const [year, month, day] = event.end.date.split('-');
@@ -250,7 +254,6 @@ async function listUpcomingEvents() {
                 course: courseName
             };
         });
-
         setErrorMessage(); // Clear error on successful fetch
         renderAssignments(assignments);
     } catch (err) {
