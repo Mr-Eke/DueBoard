@@ -70,7 +70,7 @@ My HAProxy-powered load balancer (**lb-01**) distributes incoming traffic evenly
 frontend eke_front_http
     bind *:80
     mode http
-    http-request redirect scheme https code 301 location https://www.chiagoziem.tech
+    http-request redirect scheme https code 301
 
 frontend eke_front_secured
     bind *:443 ssl crt /etc/haproxy/certs/www.chiagoziem.tech.pem
@@ -98,4 +98,6 @@ backend eke_back
 ### Validate Load Balancer
 The screenshot below shows which web server handles each request. The left image captures a request for the load balancer's IP, while the right image shows one for the domain name. Look at the red arrow, which highlights the `X-Served-By` header and indicates the active server at that moment.
   
-![Image](https://github.com/user-attachments/assets/956e88fd-9ea5-4088-a40b-a1c07d7ce9e0)
+![Image](https://github.com/user-attachments/assets/956e88fd-9ea5-4088-a40b-a1c07d7ce9e0)  
+## Secure API key & AOuth Client ID Handling
+
