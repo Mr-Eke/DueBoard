@@ -13,13 +13,14 @@ let assignments = []; // hold assignments from canvas calendar
 
 
 // Helper function to set error messages
-function setErrorMessage(message) {
+function setErrorMessage(message = null) {
     let contentElement = document.getElementById('error-content');
-    if (contentElement) {
+    if (message) {
         contentElement.innerText = message;
-        contentElement.style.display = 'block'; // Make it visible
+        contentElement.style.display = 'block';
     } else {
-        console.error('Error: #error-content element not found in DOM');
+        contentElement.innerText = '';
+        contentElement.style.display = 'none';
     }
 }
 
@@ -69,12 +70,15 @@ function maybeEnableButtons() {
                 gapi.client.setToken(parsedToken);
                 document.getElementById('authorize_button').innerText = 'Refresh Assignments';
                 document.getElementById('signout_button').style.visibility = 'visible';
+                setErrorMessage(); // Clear error on successful token load
                 listUpcomingEvents();
             } catch (error) {
                 localStorage.removeItem('google_calendar_token');
+                setErrorMessage(); // Clear error before rendering empty state
                 renderAssignments(assignments); // Show empty state on token error
             }
         } else {
+            setErrorMessage(); // Clear error for pre-auth state
             renderAssignments(assignments); // Show pre-auth empty state on load
         }
     }
@@ -92,13 +96,14 @@ async function handleAuthClick() {
     tokenClient.callback = async (resp) => {
         if (resp.error !== undefined) {
             console.error('Authorization error:', resp);
-            document.getElementById('content').innerText = 'Authorization failed: ' + resp.error;
+            setErrorMessage('Authorization failed: ' + resp.error);
             return;
         }
         // Store the new access token
         localStorage.setItem('google_calendar_token', JSON.stringify(gapi.client.getToken()));
         document.getElementById('signout_button').style.visibility = 'visible';
         document.getElementById('authorize_button').innerText = 'Refresh Assignments';
+        setErrorMessage(); // Clear any previous error
         await listUpcomingEvents(); // Fetch and render assignments
     };
 
@@ -108,14 +113,15 @@ async function handleAuthClick() {
     } else {
         // Already authorized: Try using the existing token first
         try {
-            await listUpcomingEvents(); // Attempt to fetch events with current token (fixed await here)
+            setErrorMessage(); // Clear error before attempting refresh
+            await listUpcomingEvents();
         } catch (err) {
             if (err.status === 401 || err.status === 403) {
                 // Token expired or invalid: Silently request a new one
                 tokenClient.requestAccessToken({ prompt: '' }); // No prompt for refresh
             } else {
                 console.error('Error fetching events with existing token:', err);
-                document.getElementById('content').innerText = 'Error refreshing events: ' + err.message;
+                setErrorMessage('Error refreshing events: ' + err.message);
             }
         }
     }
@@ -134,6 +140,8 @@ function handleSignoutClick() {
         document.getElementById('authorize_button').innerText = 'Authorize Access';
         document.getElementById('signout_button').style.visibility = 'hidden';
         assignments = []; // Clear assignments
+        canvasCalendarId = null; // Reset calendar ID
+        setErrorMessage(); // Clear any existing error message
         renderAssignments(assignments); // Update UI with pre-auth state
     }
 }
@@ -153,16 +161,17 @@ export async function getCanvasCalendar() {
 
         if (!canvasCalendar) {
             setErrorMessage('No Canvas calendar found. Follow the "Sync steps" instruction above to link your canvas calendar, then authorize access');
-
             return null;
         }
 
-        // Store the calendar ID
+        // Clear error message if calendar is found
+        setErrorMessage(); // Clears the error
         canvasCalendarId = canvasCalendar.id;
         // console.log("Canvas Calendar:", canvasCalendarId);
         return canvasCalendarId;
 
     } catch (err) {
+        setErrorMessage('Error fetching calendar list: ' + err.message);
         return null;
     }
 }
@@ -181,7 +190,7 @@ async function listUpcomingEvents() {
         await getCanvasCalendar();
     }
     if (!canvasCalendarId) {
-        return;
+        return; // Error message already set by getCanvasCalendar
     }
 
     try {
@@ -195,10 +204,10 @@ async function listUpcomingEvents() {
         };
         const response = await gapi.client.calendar.events.list(request);
         const events = response.result.items;
-        console.log(events);
+        // console.log(events);
 
         if (!events || events.length === 0) {
-            document.getElementById('error-content').innerText = 'No upcoming Canvas events found.';
+            setErrorMessage('No upcoming Canvas events found.');
             assignments = [];
             renderAssignments(assignments);
             return;
@@ -242,9 +251,10 @@ async function listUpcomingEvents() {
             };
         });
 
+        setErrorMessage(); // Clear error on successful fetch
         renderAssignments(assignments);
     } catch (err) {
-        document.getElementById('error-content').innerText = 'Error fetching events: ' + err.message;
+        setErrorMessage('Error fetching events: ' + err.message);
         console.error('Event fetch error:', err);
         throw err; // Re-throw to catch in handleAuthClick
     }
@@ -403,7 +413,7 @@ document.getElementById('sort-due').addEventListener('click', function () {
 // Event listener for sorting by title
 document.getElementById('sort-title').addEventListener('click', function () {
     if (!canvasCalendarId) {
-        return; // Exit if calendar isn’t found
+        return;
     }
 
     const sorted = [...assignments].sort((a, b) => a.title.localeCompare(b.title));
@@ -419,7 +429,7 @@ document.getElementById('sort-title').addEventListener('click', function () {
 // Event listener for showing urgent assignments
 document.getElementById('show-urgent').addEventListener('click', function () {
     if (!canvasCalendarId) {
-        return; // Exit if calendar isn’t found
+        return;
     }
 
     const urgent = assignments.filter(a => getDaysUntil(a.dueDate) >= 0 && getDaysUntil(a.dueDate) <= 3);
@@ -435,13 +445,12 @@ document.getElementById('show-urgent').addEventListener('click', function () {
 // Event listener for search
 document.getElementById('search-input').addEventListener('input', function () {
     if (!canvasCalendarId) {
-        return; // Exit if calendar isn’t found
+        return;
     }
-    
+
     const searchTerm = this.value.toLowerCase();
     const filtered = assignments.filter(a =>
         a.title.toLowerCase().includes(searchTerm) ||
-        a.description.toLowerCase().includes(searchTerm) ||
         a.course.toLowerCase().includes(searchTerm)
     );
     renderAssignments(filtered);
