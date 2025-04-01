@@ -8,7 +8,8 @@ Helps students stay on top of their assignment deadlines by syncing Canvas assig
 - [x] **User-Friendly UI:** Built with HTML, CSS, and JavaScript for a responsive experience.
 It’s clear and to the point, but you can make it more concise and engaging:  
 
-## Demo  
+## Demo 
+-  **Live Site - [Visit Website](https://www.chiagoziem.tech)**
 - **[Short video demo](https://youtu.be/M2U6hr7TV3w?feature=shared)** (as per requirement) - 2-minute video showcasing local use, load balancer access, key features, user interactions and application responses.
 - **[More detailed demo]()** (Error Handlling) - Showed how I handled errors like invalid responses or API downtime with clear feedback to the user.
 - **[API key restriction demo](https://youtu.be/FpfiYzF_0x0)** (57 seconds) - Restricting and limiting granted API calls to only my domain and its subdomains.
