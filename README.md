@@ -6,6 +6,13 @@ Helps students stay on top of their assignment deadlines by syncing Canvas assig
 - [x] **Assignment Details:** You can view your assignments with their name, module, description, and countdown until the due date.
 - [x] **Sorting & Searching:** Easily sort assignments by their **due date**, **alphabetically**, **urgent only**, or **search** by assignment name or course name based on your criteria.
 - [x] **User-Friendly UI:** Built with HTML, CSS, and JavaScript for a responsive experience.
+It’s clear and to the point, but you can make it more concise and engaging:  
+
+## Demo  
+- **[Short video demo](https://youtu.be/M2U6hr7TV3w?feature=shared)** (as per requirement) - 2-minute video showcasing local use, load balancer access, key features, user interactions and application responses.
+- **Error Handlling**
+  - **[More detailed demo]()** - Showed how I handled errors like invalid responses or API downtime with clear feedback to the user.
+
 ## APIs & Technologies
 - **Google Calendar API:**
   - **Official Documentation:** [Google Calendar API Docs](https://developers.google.com/calendar/api/guides/overview)
@@ -46,7 +53,7 @@ Go live and open your browser on ```http://localhost:5500``` since port 5500 is 
 I deployed **DueBoard** on two Amazon EC2 web servers (web-01 and web-02) that serve the application via NGINX. I also have a load balancer server (lb-01) mapped to the domain www.chiagoziem.tech via A record which I configured to distributes traffic evenly across web-01 and web-02 using HAProxy.  
 ### Web Servers Setup
 - **NGINX Configuration on web-01 and web-02:**
-  - Plced My application files in this directory ```/var/www/dueboard``` and below is a server block I configured on Nginx to serve requests for dueboard app
+  - Copied my application files into the home directory of both servers `scp DueBoard/* ubuntu@3.93.240.46:~/`, created my application directory `sudo mkdir -p /var/www/dueboard`, moved the application files into the directory, configured the below server block for my app with the location block for DeuBoard application server pointing to the app directory, saved my configuration and restarted nginx `sudo service nginx restart`
   
       ```
       server {
@@ -99,5 +106,38 @@ backend eke_back
 The screenshot below shows which web server handles each request. The left image captures a request for the load balancer's IP, while the right image shows one for the domain name. Look at the red arrow, which highlights the `X-Served-By` header and indicates the active server at that moment.
   
 ![Image](https://github.com/user-attachments/assets/956e88fd-9ea5-4088-a40b-a1c07d7ce9e0)  
-## Secure API key & AOuth Client ID Handling
+
+### **Handling Sensitive Information (API Key & AOuth Client ID)**  
+ My application is entirely client-based and runs in the browser, fully hiding API keys and OAuth client IDs is not possible. But to meet project requirements, I implemented the following measures:  
+- **Config file & .gitignore:**
+  - I stored API credentials in a `config.js` file and added it to `.gitignore` to prevent them from being pushed to the repository.  
+- **API Key Restrictions:**  
+  - In Google Cloud Console, I restricted my API key to work only on my application’s domain `https://chiagoziem.tech` and its subdomains `https://*.chiagoziem.tech`, which prevents unauthorized use of the API key from other domains or localhost.  
+- **Restricted API Key in Action:**  
+  - If an API request originates from a domain that is not authorized, Google blocks it, returning the following 403 PERMISSION_DENIED error:
+   ```{
+        "error": {
+          "code": 403,
+          "message": "Requests from referer \u003Cempty\u003E are blocked.",
+          "status": "PERMISSION_DENIED",
+          "details": [
+            {
+              "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+              "reason": "API_KEY_HTTP_REFERRER_BLOCKED",
+              "domain": "googleapis.com",
+              "metadata": {
+                "httpReferrer": "\u003Cempty\u003E",
+                "service": "calendar-json.googleapis.com",
+                "consumer": "projects/590331090679"
+              }
+            },
+          {
+            "@type": "type.googleapis.com/google.rpc.LocalizedMessage",
+            "locale": "en-US",
+            "message": "Requests from referer \u003Cempty\u003E are blocked."
+          }
+        ]
+      }
+    }
+    ```
 
