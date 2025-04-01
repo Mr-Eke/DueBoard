@@ -11,7 +11,7 @@ It’s clear and to the point, but you can make it more concise and engaging:
 ## Demo  
 - **[Short video demo](https://youtu.be/M2U6hr7TV3w?feature=shared)** (as per requirement) - 2-minute video showcasing local use, load balancer access, key features, user interactions and application responses.
 - **[More detailed demo]()** (Error Handlling) - Showed how I handled errors like invalid responses or API downtime with clear feedback to the user.
-- **[API key restriction demo](https://youtu.be/FpfiYzF_0x0)** (57 seconds) - Restricting and limiting my API Key to only my domain and its subdomain in Gogle cloud console.  
+- **[API key restriction demo](https://youtu.be/FpfiYzF_0x0)** (57 seconds) - Restricting and limiting granted API calls to only my domain and its subdomains.
 
 # APIs & Technologies
 - **Google Calendar API:**
@@ -115,6 +115,7 @@ The screenshot below shows which web server handles each request. The left image
   - In Google Cloud Console, I restricted my API key to work only on my application’s domain `https://chiagoziem.tech` and its subdomains `https://*.chiagoziem.tech`, which prevents unauthorized use of the API key from other domains or localhost.  
 - **Restricted API Key in Action:**  
   - If an API request originates from a domain that is not authorized, Google blocks it, returning the following 403 PERMISSION_DENIED error:
+  
    ```{
         "error": {
           "code": 403,
