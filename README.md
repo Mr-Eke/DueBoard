@@ -1,7 +1,7 @@
 ![Image](https://github.com/user-attachments/assets/e68b260f-37a1-4a07-919d-be969c52325f)   
   
 Helps students stay on top of their assignment deadlines by syncing Canvas assignment events with Google Calendar. The web application presents assignment data in an easy-to-understand format, allowing users to sort, filter, and search assignments. **DueBoard** just ensures you are managing your academic schedules well!
-# Features
+## Features
 - [x] **Canvas Calendar Sync:** Automatically sync and read your Canvas calendar events from Google Calendar.
 - [x] **Assignment Details:** You can view your assignments with their name, module, description, and countdown until the due date.
 - [x] **Sorting & Searching:** Easily sort assignments by their **due date**, **alphabetically**, **urgent only**, or **search** by assignment name or course name based on your criteria.
@@ -13,14 +13,14 @@ It’s clear and to the point, but you can make it more concise and engaging:
 - **[More detailed demo]()** (Error Handlling) - Showed how I handled errors like invalid responses or API downtime with clear feedback to the user.
 - **[API key restriction demo](https://youtu.be/FpfiYzF_0x0)** (57 seconds) - Restricting and limiting granted API calls to only my domain and its subdomains.
 
-# APIs & Technologies
+## APIs & Technologies
 - **Google Calendar API:**
   - **Official Documentation:** [Google Calendar API Docs](https://developers.google.com/calendar/api/guides/overview)
   - Used for fetching calendar events and assignment data. 
 - **Frontend:** HTML, CSS, JavaScript
 - **Deployment:** 3 Amazon EC2 servers (web-01, web-02, lb-01), NGINX, HAProxy.
 
-# Local Setup
+## Local Setup
 - **Clone the Repository:**
   - ```bash
     git clone https://github.com/yourusername/DueBoard.git
@@ -49,7 +49,7 @@ It’s clear and to the point, but you can make it more concise and engaging:
         }
         ```
 Go live and open your browser on ```http://localhost:5500``` since port 5500 is the redirect URL in the Google Cloud Console for OAuth. Then follow the instructions displayed on the app.    
-# Deployment
+## Deployment
 I deployed **DueBoard** on two Amazon EC2 web servers (web-01 and web-02) that serve the application via NGINX. I also have a load balancer server (lb-01) mapped to the domain www.chiagoziem.tech via A record which I configured to distributes traffic evenly across web-01 and web-02 using HAProxy.  
 ### Web Servers Setup
 - **NGINX Configuration on web-01 and web-02:**
@@ -71,7 +71,7 @@ I deployed **DueBoard** on two Amazon EC2 web servers (web-01 and web-02) that s
           }
       }
     ```
-# Load Balancer Configuration
+## Load Balancer Configuration
 My HAProxy-powered load balancer (**lb-01**) distributes incoming traffic evenly between **web-01** and **web-02**. To enable this, I configured`haproxy.cfg` at `/etc/haproxy` with the below settings. ⤵️  
 ```
 frontend eke_front_http
@@ -107,7 +107,7 @@ The screenshot below shows which web server handles each request. The left image
   
 ![Image](https://github.com/user-attachments/assets/956e88fd-9ea5-4088-a40b-a1c07d7ce9e0)  
 
-# **Handling Sensitive Information (API Key & AOuth Client ID)**  
+## **Handling Sensitive Information (API Key & AOuth Client ID)**  
  My application is entirely client-based and runs in the browser, fully hiding API keys and OAuth client IDs is not possible. But to meet project requirements, I implemented the following measures:  
 - **Config file & .gitignore:**
   - I stored API credentials in a `config.js` file and added it to `.gitignore` to prevent them from being pushed to the repository.  
@@ -142,7 +142,7 @@ The screenshot below shows which web server handles each request. The left image
     }
     ```
    - **You can watch this [short video](https://youtu.be/FpfiYzF_0x0) (57 seconds) to see how I made the API restriction in Google cloud console.**
-# Challanges and how I Overcame them
+## Challanges and how I Overcame them
 ### Backend with Python/Flask and Redirect URL Confusion
 Initially, I was using Python Flask backend to handle Google Calendar API authentication and serve data to frontend. But I got confused when configuring OAuth 2.0 in the Google Cloud Console. I struggled to determine the correct redirect URI, that's the URL Google should redirect users to after they grant consent during the OAuth flow. I wasn’t sure whether it should point to the Flask backend or the frontend, and I couldn’t get it work.
 #### **Solution:**  
