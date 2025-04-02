@@ -9,15 +9,15 @@ Helps students stay on top of their assignment deadlines by syncing Canvas assig
 It’s clear and to the point, but you can make it more concise and engaging:  
 
 ## Demo 
--  **Live Site - [Visit Website](https://www.chiagoziem.tech)**
-- **[Short video demo](https://youtu.be/M2U6hr7TV3w?feature=shared)** (as per requirement) - 2-minute video showcasing local use, load balancer access, key features, user interactions and application responses.
-- **[More detailed demo]()** (Error Handlling) - Showed how I handled errors like invalid responses or API downtime with clear feedback to the user.
-- **[API key restriction demo](https://youtu.be/FpfiYzF_0x0)** (57 seconds) - Restricting and limiting granted API calls to only my domain and its subdomains.
+-  **Live Site ➡️ [Visit Website](https://www.chiagoziem.tech)**
+-  **Short Demo ➡️ [Watch Video](https://youtu.be/M2U6hr7TV3w?feature=shared) (2 mins) -** Local use, load balancer access, key features, user interactions and application responses.
+- **Error Handling ➡️ [Watch Video]() (1 min) -** Invalid responses, unsynced canvas calendar, or API downtime with clear feedback to the user.
+- **API key Restriction ➡️ [watch Video](https://youtu.be/FpfiYzF_0x0) (57 sec) -** Restricting & limiting granted API calls to only my domain and its subdomains.
 
 ## APIs & Technologies
 - **Google Calendar API:**
+  - This project uses the Google Calendar API to fetch and manage Canvas assignment events. Thanks to Google for providing such a powerful API that enable calendar synchronization.
   - **Official Documentation:** [Google Calendar API Docs](https://developers.google.com/calendar/api/guides/overview)
-  - Used for fetching calendar events and assignment data. 
 - **Frontend:** HTML, CSS, JavaScript
 - **Deployment:** 3 Amazon EC2 servers (web-01, web-02, lb-01), NGINX, HAProxy.
 
@@ -27,19 +27,19 @@ It’s clear and to the point, but you can make it more concise and engaging:
     git clone https://github.com/yourusername/DueBoard.git
     cd DueBoard
     ```
-- **Configure API and OAuth Credentials:**  
+### Configure API and OAuth Credentials:   
   You'll need to configure a **Google API key** and **OAuth Client ID** for user authentication and access to calendar data.
-  - **Obtain Google API and OAuth Credentials:**
-    - Go to the [Google Cloud Console](https://console.cloud.google.com/welcome/new?pli=1&inv=1&invt=AbtbzQ), Click "Select Project" and create a new project.
-    - Navigate to "APIs & Services" > "Library", search for and enable the "Google Calendar API".  
-    - Go to "APIs & Services" > "Credentials", click "Create Credentials" > "API Key", then copy the generated API key.
-  - **Get an OAuth Client ID:**
-    - In the same Credentials section, click "Create Credentials" > "OAuth Client ID."
-    - Set Application type to Web application.
-    - Under "Authorized JavaScript origins", add: http://localhost:5500 (must match your local server port). Then click "create and copy the client ID.  
-  - **Enable OAuth Consent:**
-    - Go to APIs & Services > OAuth consent screen, set up the app name (e.g., "DueBoard") and user support email.
-    - Add the scope: https://www.googleapis.com/auth/calendar.readonly, then save.
+- **Obtain Google API and OAuth Credentials:**
+  - Go to the [Google Cloud Console](https://console.cloud.google.com/welcome/new?pli=1&inv=1&invt=AbtbzQ), Click "Select Project" and create a new project.
+  - Navigate to "APIs & Services" > "Library", search for and enable the "Google Calendar API".  
+  - Go to "APIs & Services" > "Credentials", click "Create Credentials" > "API Key", then copy the generated API key.
+- **Get an OAuth Client ID:**
+  - In the same Credentials section, click "Create Credentials" > "OAuth Client ID."
+  - Set Application type to Web application.
+  - Under "Authorized JavaScript origins", add: `http://localhost:5500` (must match your local server port). Then click "create and copy the client ID.  
+- **Enable OAuth Consent:**
+  - Go to APIs & Services > OAuth consent screen, set up the app name (e.g., "DueBoard") and user support email.
+  - Add the scope: `https://www.googleapis.com/auth/calendar.readonly`, then save.
 - **Configure Credentials in config.js**
   - The app imports credentials from `config.js`. Create this file In the project root (where your main JavaScript file is) to store your API key and Client ID. Then add following, replacing the placeholders with your credentials
   
@@ -49,9 +49,9 @@ It’s clear and to the point, but you can make it more concise and engaging:
             api_key: 'Your_API_Key'
         }
         ```
-Go live and open your browser on ```http://localhost:5500``` since port 5500 is the redirect URL in the Google Cloud Console for OAuth. Then follow the instructions displayed on the app.    
+Go to your Google auth platform for your project, under "OAuth 2.0 Client IDs" click your app client and input your localhost port, e.g. (`localhost:5500`) in the redirect URL for "Authorised JavaScript origins." Then go live, open your browser in the set port and follow the instructions displayed on the app.    
 ## Deployment
-I deployed **DueBoard** on two Amazon EC2 web servers (web-01 and web-02) that serve the application via NGINX. I also have a load balancer server (lb-01) mapped to the domain www.chiagoziem.tech via A record which I configured to distributes traffic evenly across web-01 and web-02 using HAProxy.  
+I deployed **DueBoard** on two Amazon EC2 web servers (web-01 and web-02) that serve the application via NGINX. I also have a load balancer server (lb-01) mapped to the domain www.chiagoziem.tech via A record, which I configured to distribute traffic evenly across web-01 and web-02 using HAProxy.  
 ### Web Servers Setup
 - **NGINX Configuration on web-01 and web-02:**
   - Copied my application files into the home directory of both servers `scp DueBoard/* ubuntu@3.93.240.46:~/`, created my application directory `sudo mkdir -p /var/www/dueboard`, moved the application files into the directory, configured the below server block for my app with the location block for DeuBoard application server pointing to the app directory, saved my configuration and restarted nginx `sudo service nginx restart`
@@ -171,7 +171,16 @@ if (event.end.date && !event.end.dateTime) {
     dueDate = new Date(event.end.dateTime); // Use full timestamp
 }
 ```
-The adjustment now ensured that assignments with `date` were displayed with the correct deadline of 11:59 PM instead of midnight, my `getDaysUntil()` function now correctly determines the number of days left until an assignment is due, preventing off-by-one errors and assignments now show as "Due today" at the right time instead of appearing a day later.  
+The adjustment now ensured that assignments with `date` were displayed with the correct deadline of 11:59 PM instead of midnight; my `getDaysUntil()` function now correctly determines the number of days left until an assignment is due, preventing off-by-one errors and assignments now show as "Due today" at the right time instead of appearing a day later.  
+## Acknowlegment  
+Special thanks to my learning Coach **Wakuma Debela** for the invaluable guidance throughout the module, which made this project possible.  
+  
+This project was brought to live by **Chiagoziem (El-gibbor) Eke** to provide a smooth and stres-free assignment tracking. Stay tuned! more integrations, nice improvements, and a full-scale launch are coming. We can connect via the links below:  
+  
+<a href="https://www.linkedin.com/in/elgibbor/"><img align="left" src="https://github.com/El-gibbor/El-gibbor/raw/main/images/linkedin.png" alt="Elgibbor | LinkedIn" width="23px"/></a>
+<a href="https://elgibbor.hashnode.dev/"><img align="left" src="https://github.com/El-gibbor/El-gibbor/assets/107848793/238d8698-e2d1-421e-88af-9b4807cb269b" alt="Elgibbor | hashnode" width="23px"/></a>
+<a href="https://twitter.com/Mr_Elgibbor/"><img align="left" src="https://github.com/El-gibbor/El-gibbor/raw/main/images/twitter.png" alt="Elgibbor | twitter" width="23px"/></a>
+<a href="https://instagram.com/iam_elgibbor/"><img align="left" src="https://github.com/El-gibbor/El-gibbor/raw/main/images/instagram.png" alt="Elgibbor | instagram" width="23px"/></a>  
   
   
 
