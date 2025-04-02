@@ -172,7 +172,7 @@ if (event.end.date && !event.end.dateTime) {
 }
 ```
 The adjustment now ensured that assignments with `date` were displayed with the correct deadline of 11:59 PM instead of midnight; my `getDaysUntil()` function now correctly determines the number of days left until an assignment is due, preventing off-by-one errors and assignments now show as "Due today" at the right time instead of appearing a day later.  
-## Acknowlegment  
+## Acknowledgement  
 Special thanks to my learning Coach **Wakuma Debela** for the invaluable guidance throughout the module, which made this project possible.  
   
 This project was brought to live by **Chiagoziem (El-gibbor) Eke** to provide a smooth and stres-free assignment tracking. Stay tuned! more integrations, nice improvements, and a full-scale launch are coming. We can connect via the links below:  
