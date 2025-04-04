@@ -114,7 +114,7 @@ The screenshot below shows which web server handles each request. The left image
 - **API Key Restrictions:**  
   - In Google Cloud Console, I restricted my API key to work only on my application’s domain `https://chiagoziem.tech` and its subdomains `https://*.chiagoziem.tech`, which prevents unauthorized use of the API key from other domains or localhost.  
 - **Restricted API Key in Action:**  
-  - If an API request originates from a domain that is not authorized, Google blocks it, returning the following 403 PERMISSION_DENIED error:
+  - If an API request originates from a domain that is not authorized, Google blocks it, returning the below 403 PERMISSION_DENIED error:
   
    ```{
         "error": {
