@@ -315,8 +315,8 @@ function renderAssignments(assignmentsToRender) {
             container.innerHTML = `
                 <div class="empty-state-unauthorized">
                     <h3>Welcome to DueBoard!</h3>
-                    <p class="first-p"><strong>DueBoard</strong> is for ALU students only. Click "Authorize Access" and sign in with your <strong>@alustudent.com</strong> email address.</p>
-                    <p class="first-p">Ensure your Canvas calendar is synced with your ALU Google account.</p>
+                    <p class="first-p"><span class="dueboard-org"><strong>DueBoard</strong> is for ALU students only or can only be used within its organisation, <strong>alueducation</strong>!</span></p>
+                    <p class="first-p">Ensure your Canvas calendar is synced to your Google calendar, <strong>syn steps</strong> below. Then authorize access with your <strong>@alustudent.com</strong> email.</p>
                     <p class="first-p second-p"><strong>Sync Steps:</strong> In Canvas, go to <strong>Calendar</strong>, select your name and courses if they not already selected, click <strong>Calendar Feed</strong>, and copy the URL. Go to your Google Calendar, click <strong>+</strong> beside "Other Calendars," to add a new calendar, select <strong>From URL</strong>, paste the link, check the box <strong>Make publicly accessible</strong>, and click <strong>Add Calendar</strong>.</p>
                 </div>
             `;
