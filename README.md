@@ -12,8 +12,6 @@ It’s clear and to the point, but you can make it more concise and engaging:
 -  **Live Site ➡️ [Visit Website](https://www.chiagoziem.tech)**
 -  **Short Demo ➡️ [Watch Video](https://youtu.be/M2U6hr7TV3w?feature=shared) (2 mins) -** Local use, load balancer access, key features, user interactions and application responses.
 - **Error Handling ➡️ [Watch Video]() (1 min) -** Invalid responses, unsynced canvas calendar, or API downtime with clear feedback to the user.
-- **API key Restriction ➡️ [watch Video](https://youtu.be/FpfiYzF_0x0) (57 sec) -** Restricting & limiting granted API calls to only my domain and its subdomains.
-
 ## APIs & Technologies
 - **Google Calendar API:**
   - This project uses the Google Calendar API to fetch and manage Canvas assignment events. Thanks to Google for providing such a powerful API that enable calendar synchronization.
@@ -108,14 +106,15 @@ The screenshot below shows which web server handles each request. The left image
   
 ![Image](https://github.com/user-attachments/assets/956e88fd-9ea5-4088-a40b-a1c07d7ce9e0)  
 
-## **Handling Sensitive Information (API Key & AOuth Client ID)**  
+## Securely Handled Sensitive Information  
+### API Key
  My application is entirely client-based and runs in the browser, fully hiding API keys and OAuth client IDs is not possible. But to meet project requirements, I implemented the following measures:  
 - **Config file & .gitignore:**
   - I stored API credentials in a `config.js` file and added it to `.gitignore` to prevent them from being pushed to the repository.  
 - **API Key Restrictions:**  
   - In Google Cloud Console, I restricted my API key to work only on my application’s domain `https://chiagoziem.tech` and its subdomains `https://*.chiagoziem.tech`, which prevents unauthorized use of the API key from other domains or localhost.  
 - **Restricted API Key in Action:**  
-  - If an API request originates from a domain that is not authorized, Google blocks it, returning the following 403 PERMISSION_DENIED error:
+  - If an API request originates from a domain that is not authorized, Google blocks it, returning the below 403 PERMISSION_DENIED error:
   
    ```{
         "error": {
@@ -142,7 +141,12 @@ The screenshot below shows which web server handles each request. The left image
       }
     }
     ```
-   - **You can watch this [short video](https://youtu.be/FpfiYzF_0x0) (57 seconds) to see how I made the API restriction in Google cloud console.**
+   - **You can watch this [short video](https://youtu.be/FpfiYzF_0x0) (57 sec) to see how I made the API restriction in Google cloud console.**
+### OAuth - Authorised Domain
+My application domain is specified as the authorized JavaScript origin. This restricts OAuth flows to only web pages served from my domain. So, only scripts running on my approved domain can initiate authentication requests using my OAuth credentials. No one can use my client ID to impersonate my application. See screenshort below ⤵️  
+  
+![Image](https://github.com/user-attachments/assets/d61ce22b-534e-44de-a872-481621315657)  
+
 ## Challanges and how I Overcame them
 ### Backend with Python/Flask and Redirect URL Confusion
 Initially, I was using Python Flask backend to handle Google Calendar API authentication and serve data to frontend. But I got confused when configuring OAuth 2.0 in the Google Cloud Console. I struggled to determine the correct redirect URI, that's the URL Google should redirect users to after they grant consent during the OAuth flow. I wasn’t sure whether it should point to the Flask backend or the frontend, and I couldn’t get it work.
