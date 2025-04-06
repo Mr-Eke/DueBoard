@@ -34,7 +34,7 @@ body {
 
 /* Container for main content */
 .container {
-  max-width: 1100px;
+  max-width: 1150px;
   margin: 0 auto;
   padding: 0;
 }
@@ -43,7 +43,7 @@ body {
 header {
   background-color: var(--navy);
   color: var(--white);
-  padding: 20px 30px;
+  padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
 }
@@ -52,7 +52,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1100px;
+  max-width: 1250px;
   margin: 0 auto;
 }
 
@@ -426,6 +426,7 @@ button:hover {
 }
 
 #error-content {
+  display: none;
   background-color: #ffebee;
   color: #d32f2f;
   padding: 10px;
