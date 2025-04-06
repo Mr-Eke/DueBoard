@@ -11,7 +11,6 @@ It’s clear and to the point, but you can make it more concise and engaging:
 ## Demo 
 -  **Live Site ➡️ [Visit Website](https://www.chiagoziem.tech)**
 -  **Short Demo ➡️ [Watch Video](https://youtu.be/M2U6hr7TV3w?feature=shared) (2 mins) -** Local use, load balancer access, key features, user interactions and application responses.
-- **Error Handling ➡️ [Watch Video]() (1 min) -** Invalid responses, unsynced canvas calendar, or API downtime with clear feedback to the user.
 ## APIs & Technologies
 - **Google Calendar API:**
   - This project uses the Google Calendar API to fetch and manage Canvas assignment events. Thanks to Google for providing such a powerful API that enable calendar synchronization.
@@ -145,8 +144,29 @@ The screenshot below shows which web server handles each request. The left image
 ### OAuth - Authorised Domain
 My application domain is specified as the authorized JavaScript origin. This restricts OAuth flows to only web pages served from my domain. So, only scripts running on my approved domain can initiate authentication requests using my OAuth credentials. No one can use my client ID to impersonate my application. See screenshort below ⤵️  
   
-![Image](https://github.com/user-attachments/assets/d61ce22b-534e-44de-a872-481621315657)  
-
+![client id_main](https://github.com/user-attachments/assets/eadf2e91-9056-4c09-9115-69029a90817a)  
+  
+## Error Handling  
+Below is an overview of how I handled errors throughout the application, particularly in API interactions with the google calendar API.  
+### Centralized Error Display with `setErrorMessage()`  
+I have a reuseable function `setErrorMessage()` to display error messages to users via one consistent UI element (`#error-content`).  
+```
+function setErrorMessage(message = null) {
+    let contentElement = document.getElementById('error-content');
+    if (message) {
+        contentElement.innerText = message;
+        contentElement.style.display = 'block';
+    } else {
+        contentElement.innerText = '';
+        contentElement.style.display = 'none';
+    }
+}
+```
+- When an error occurs, `setErrorMessage()` is called with a descriptive message, and `#error-content` element will be visible to the user.  
+- When no error is present (or on retry), it's called with no argument to clear and hide the error display.
+  - You can check the `getCanvasCalendar()` and `listUpcomingEvents()` function to see how network-related errors are caught and handled specifically. The same applies to the rest of the implementation in every possible error, including API downtime, network issues, invalid responses and permission errors.  
+### UI Feedback for Empty States
+In cases where no assignments are returned, either due to search/filter mismatches or no data, the `renderAssignments()` function shows a helpful empty state with user guidance rather than leaving the UI blank.   
 ## Challanges and how I Overcame them
 ### Backend with Python/Flask and Redirect URL Confusion
 Initially, I was using Python Flask backend to handle Google Calendar API authentication and serve data to frontend. But I got confused when configuring OAuth 2.0 in the Google Cloud Console. I struggled to determine the correct redirect URI, that's the URL Google should redirect users to after they grant consent during the OAuth flow. I wasn’t sure whether it should point to the Flask backend or the frontend, and I couldn’t get it work.
