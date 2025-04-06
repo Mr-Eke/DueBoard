@@ -169,15 +169,9 @@ async function getCanvasCalendar() {
         canvasCalendarId = canvasCalendar.id;
         return canvasCalendarId;
     } catch (err) {
-        console.error('Calendar list fetch error:', err);
-        if (err instanceof TypeError && err.message === 'Failed to fetch') {
-            setErrorMessage('Network error: Please check your internet connection.');
-        } else if (err.result?.error?.code === 403) {
-            setErrorMessage('Permission denied to access calendars. Please authorize again.');
-        } else if (err.result?.error?.code === 404) {
-            setErrorMessage('Calendar service unavailable. Please try again later.');
-        } else {
-            setErrorMessage('Unable to fetch calendars. Please try again later.');
+        console.log(err) // i use thi to check whats in the error obj
+        if (err.result.error.code === 401 && err.result.error.errors[0].message === "Invalid Credentials") {
+            setErrorMessage("Sorry, your session has expired, please sign out and re-athourise access")
         }
         return null;
     }
@@ -305,9 +299,9 @@ function formatDate(date) {
 
 // Function to render assignments
 function renderAssignments(assignmentsToRender) {
+
     const container = document.getElementById('assignments-container');
     container.innerHTML = '';
-
     const isAuthorized = !!localStorage.getItem('google_calendar_token');
 
     if (assignmentsToRender.length === 0) {
@@ -324,7 +318,7 @@ function renderAssignments(assignmentsToRender) {
             container.innerHTML = `
                 <div class="empty-state">
                     <h3>No Assignments to Display</h3>
-                    <p>Adjust your filters/search or click "Refresh Assignments" to display your available canvas assignments</p>
+                     <p>Please check for any issues below, adjust your filters/search, or click "Refresh Assignments" to update your list.</p>
                 </div>
             `;
         }
@@ -458,7 +452,7 @@ function loadGoogleApis() {
     gapiScript.async = true;
     gapiScript.defer = true;
     gapiScript.onload = gapiLoaded;
-    gapiScript.onerror = () => setErrorMessage('Failed to load the required Google service. Please check your connection.');
+    gapiScript.onerror = () => setErrorMessage('Failed to load the required Google resources. Please check your internet connection.');
     document.body.appendChild(gapiScript);
 
     const gisScript = document.createElement('script');
@@ -466,7 +460,7 @@ function loadGoogleApis() {
     gisScript.async = true;
     gisScript.defer = true;
     gisScript.onload = gisLoaded;
-    gisScript.onerror = () => setErrorMessage('Failed to load the required Google. Please check your connection.');
+    gisScript.onerror = () => setErrorMessage('Failed to load the required Google resources. Please check your internet connection.');
     document.body.appendChild(gisScript);
 }
 
