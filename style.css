@@ -25,6 +25,10 @@
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   background-color: var(--off-white);
   color: var(--text-dark);
@@ -90,6 +94,91 @@ header {
     border-bottom: 3.5px solid var(--red);
   }
 }
+
+.app__detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 12px;
+}
+
+.detail__report,
+.detail__github,
+.detail__demo {
+  border-radius: 50%;
+  background-color: var(--white);
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.detail__report:hover,
+.detail__github:hover,
+.detail__demo:hover {
+  transform: scale(1.07);
+}
+
+.ri__icon {
+  color: var(--navy);
+  font-size: 1.3rem;
+  font-weight: var(--text-normal);
+  transition: color 0.3s ease;
+}
+
+.detail__report:hover .ri__icon,
+.detail__github:hover .ri__icon,
+.detail__demo:hover .ri__icon {
+  color: var(--red);
+}
+
+/* Tooltip */
+.app__detail div a::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  background-color: var(--red);
+  color: var(--white);
+  text-decoration: none;
+  padding: 0.1em 0.5em;
+  border-radius: 100px;
+  transform: translateY(-40px);
+  font-size: .8rem;
+  opacity: 0;
+  width: max-content;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.app__detail div a::after {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 8px solid var(--red);
+  transform: translateY(-30px);
+  opacity: 0;
+  transition: all 0.4s ease;
+  left: auto;
+}
+
+.app__detail div a:hover::before {
+  transform: translateY(-28.5px);
+  opacity: 1;
+  left: -50%;
+}
+
+.app__detail div a:hover::after {
+  transform: translateY(-7px);
+  opacity: 1;
+  left: 40%;
+}
+
 
 .main-content {
   padding: 0 30px 30px;
