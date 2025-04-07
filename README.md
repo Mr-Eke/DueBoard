@@ -196,8 +196,8 @@ if (event.end.date && !event.end.dateTime) {
 }
 ```
 The adjustment now ensured that assignments with `date` were displayed with the correct deadline of 11:59 PM instead of midnight; my `getDaysUntil()` function now correctly determines the number of days left until an assignment is due, preventing off-by-one errors and assignments now show as "Due today" at the right time instead of appearing a day later.  
-## 🎁 Bonus Task – OAuth2.2 User Authentication
-My app includes **user authentication** via OAuth 2.2, which allows users to securely sign in and grant permission to access their Google Calendar. I hope this earns me a shiny extra point. 😄  
+## 🎁 Bonus Task – OAuth2.0 User Authentication
+My app includes **user authentication** via OAuth 2.0, which allows users to securely sign in and grant permission to access their Google Calendar. I hope this earns me a shiny extra point. 😄  
 ## Acknowledgement  
 Special thanks to my learning Coach **Wakuma Debela** for the invaluable guidance throughout the module, which made this project possible.  
   
