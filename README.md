@@ -5,9 +5,7 @@ Helps students stay on top of their assignment deadlines by syncing Canvas assig
 - [x] **Canvas Calendar Sync:** Automatically sync and read your Canvas calendar events from Google Calendar.
 - [x] **Assignment Details:** You can view your assignments with their name, module, description, and countdown until the due date.
 - [x] **Sorting & Searching:** Easily sort assignments by their **due date**, **alphabetically**, **urgent only**, or **search** by assignment name or course name based on your criteria.
-- [x] **User-Friendly UI:** Built with HTML, CSS, and JavaScript for a responsive experience.
-It’s clear and to the point, but you can make it more concise and engaging:  
-
+- [x] **User-Friendly UI:** Built with HTML, CSS, and JavaScript for a responsive experience.  
 ## Demo 
 -  **Live Site ➡️ [Visit Website](https://www.chiagoziem.tech)**
 -  **Short Demo ➡️ [Watch Video](https://youtu.be/M2U6hr7TV3w?feature=shared) (2 mins) -** Local use, load balancer access, key features, user interactions and application responses.
